@@ -24,7 +24,7 @@ func main() {
 	errChan := make(chan error)
 
 	userRepository := users_repository.NewInMemoryUserRepository()
-	messagesRepository := messages_repository.NewInMemoryRepository()
+	messagesRepository := messages_repository.NewInMemoryMessagesRepository()
 
 	messageLoader := loader.NewMessageLoader(messagesRepository, defaultMessagesFilePath)
 	go messageLoader.Load(errChan)

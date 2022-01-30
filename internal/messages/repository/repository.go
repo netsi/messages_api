@@ -24,8 +24,8 @@ type inMemoryRepository struct {
 	messages sync.Map
 }
 
-// NewInMemoryRepository returns a new instance of inMemoryRepository.
-func NewInMemoryRepository() *inMemoryRepository {
+// NewInMemoryMessagesRepository returns a new instance of inMemoryRepository.
+func NewInMemoryMessagesRepository() *inMemoryRepository {
 	return &inMemoryRepository{
 		count:    0,
 		messages: sync.Map{},
