@@ -1,0 +1,66 @@
+name: Quality
+
+on: [push]
+
+jobs:
+
+  go-fmt:
+    name: go fmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Execute gofmt -l .
+        run: gofmt -l .
+
+      - name: Execute test -z $(gofmt -l .)
+        run: test -z $(gofmt -l .)
+
+  go-vet:
+    name: static code analysis (go vet)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.17
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Static code analysis
+        run: go vet ./...
+
+  golangci-lint:
+    name: static code analysis (golangci-lint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.17
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Static code analysis (golangci-lint)
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v1.42.0
+          args: --timeout 5m --print-issued-lines --print-linter-name --disable structcheck
+
+  test:
+    name: go test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go 1.17
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17
+
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
+
+      - name: Test
+        run: go test ./...
