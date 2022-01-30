@@ -6,6 +6,7 @@ import (
 )
 
 // Repository defines the available function for the user repository.
+//go:generate mockery --name Repository
 type Repository interface {
 	GetAdmin(ctx context.Context, username string) (*model.User, error)
 }
